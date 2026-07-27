@@ -23,7 +23,7 @@
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "^5.0.30",
     "@ai-sdk/openai-compatible": "^3.0.14",
-    "@ai-sdk/solid": "^0.0.38",
+    "@ai-sdk/solid": "^1.2.13",
     "@kobalte/core": "^0.13.7",
     "@libsql/client": "^0.17.4",
     "@solidjs/meta": "^0.29.3",
