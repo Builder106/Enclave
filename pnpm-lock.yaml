@@ -45,8 +45,8 @@ importers:
         specifier: ^0.45.2
         version: 0.45.2(@libsql/client@0.17.4)(@opentelemetry/api@1.9.0)
       lucide-solid:
-        specifier: ^0.363.0
-        version: 0.363.0(solid-js@1.9.14)
+        specifier: ^1.26.0
+        version: 1.26.0(solid-js@1.9.14)
       solid-js:
         specifier: ^1.8.17
         version: 1.9.14
@@ -2887,8 +2887,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide-solid@0.363.0:
-    resolution: {integrity: sha512-6iXbSKvyfcr8EUUcIAwz+Ez6zupQjuhQgRGy8n7tLq5kWsuK6zshN8V3D848X8Z5nubnTFoWeKKbSTXjE5VhAQ==}
+  lucide-solid@1.26.0:
+    resolution: {integrity: sha512-1xXTyA249ZhuxHQjRaBJGhVHNb9/82bOwOYSesxMIqN3pcES3HaXbcu6kLGksxUIy2tvl6ixYOevtsBsk7eZWg==}
     peerDependencies:
       solid-js: ^1.4.7
 
@@ -6546,7 +6546,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-solid@0.363.0(solid-js@1.9.14):
+  lucide-solid@1.26.0(solid-js@1.9.14):
     dependencies:
       solid-js: 1.9.14
 
