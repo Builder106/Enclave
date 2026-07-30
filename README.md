@@ -4,7 +4,7 @@
   <img alt="Enclave — clinical document AI that never phones home" src="assets/banner-light.svg">
 </picture>
 
-[![CI](https://github.com/Builder106/Enclave/actions/workflows/ci.yml/badge.svg)](https://github.com/Builder106/Enclave/actions/workflows/ci.yml)
+[![CI](https://github.com/Builder106/enclave/actions/workflows/ci.yml/badge.svg)](https://github.com/Builder106/enclave/actions/workflows/ci.yml)
 [![Node](https://img.shields.io/badge/Node-22%2B-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black.svg?logo=next.js&logoColor=white)](https://nextjs.org/)
 [![AI SDK](https://img.shields.io/badge/AI%20SDK-5-0A0A0A.svg)](https://ai-sdk.dev/)
@@ -63,7 +63,7 @@ sequenceDiagram
     Note over WB,Data: results are REAL measured runs, produced offline by the<br/>rules/local/groq pipeline; the workbench plays them back
 ```
 
-Behind the browser, the measurement pipeline does the real work: `runDocument` sends the noisy text to one provider for the *perception* step (text → structured fields), then **deterministic TypeScript** does code matching and anomaly detection — the model proposes, the code disposes. (A lesson carried from [Helm](https://github.com/Builder106/Helm), where an LLM that read invoices at 91.9% dropped to 54% on multi-step policy math.) Every run is persisted with its egress-byte count; `scripts/export-demo.ts` joins those results with the source documents into what the workbench plays back.
+Behind the browser, the measurement pipeline does the real work: `runDocument` sends the noisy text to one provider for the *perception* step (text → structured fields), then **deterministic TypeScript** does code matching and anomaly detection — the model proposes, the code disposes. (A lesson carried from [Helm](https://github.com/Builder106/helm), where an LLM that read invoices at 91.9% dropped to 54% on multi-step policy math.) Every run is persisted with its egress-byte count; `scripts/export-demo.ts` joins those results with the source documents into what the workbench plays back.
 
 ## The providers
 
@@ -111,7 +111,7 @@ data/demo/             per-document measured results the workbench plays back
 
 ## Provenance & lineage
 
-Enclave is the AI-layer sequel to [MedCore](https://github.com/Builder106/MedCore) (winner, 2026 Yale Africa Innovation Symposium), which argued that clinics in low-connectivity settings need offline-first records. Enclave extends it to the intelligence layer: if the records can't depend on the cloud, neither should the model reading them. The FHIR R4 shapes and audit-log pattern are harvested from MedCore. Across the portfolio: [TradeTell](https://github.com/Builder106/IMC_Prosperity) covers retrieval, [Helm](https://github.com/Builder106/Helm) covers orchestration and measurement of hosted models, Enclave covers local inference where hosted models legally can't go.
+Enclave is the AI-layer sequel to [MedCore](https://github.com/Builder106/med-core) (winner, 2026 Yale Africa Innovation Symposium), which argued that clinics in low-connectivity settings need offline-first records. Enclave extends it to the intelligence layer: if the records can't depend on the cloud, neither should the model reading them. The FHIR R4 shapes and audit-log pattern are harvested from MedCore. Across the portfolio: [TradeTell](https://github.com/Builder106/imc-prosperity) covers retrieval, [Helm](https://github.com/Builder106/helm) covers orchestration and measurement of hosted models, Enclave covers local inference where hosted models legally can't go.
 
 ## Roadmap
 
