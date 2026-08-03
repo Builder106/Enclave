@@ -7,6 +7,17 @@ on:
     branches: [main]
 
 jobs:
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITLEAKS_NOTIFY_USER_LIST: ""
+
   ci:
     runs-on: ubuntu-latest
     steps:
@@ -20,6 +31,8 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+
+      - run: pnpm audit --audit-level high
 
       - run: pnpm typecheck
 

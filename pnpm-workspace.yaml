@@ -14,5 +14,7 @@ minimumReleaseAgeExclude:
   - ai@7.0.4
   - lucide-react@1.22.0
 verifyDepsBeforeRun: false
+overrides:
+  h3: ">=1.15.6"
 packages:
   - "."
