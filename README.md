@@ -31,15 +31,15 @@ Pick a specimen, choose **Groq**, and watch ~2 KB travel device→cloud as the f
 
 Every number below is a real measured run over 50 held-out synthetic superbills (`seed 1`), played back by the workbench — not a live demo of one lucky document.
 
-**Rules baseline · deterministic parser, no model**
+### Rules baseline · deterministic parser, no model
 
 > **96.0% parse · 95.0% field accuracy · 84.0% exact match · code F1 98.3 · anomaly F1 90.0 — at sub-ms latency, $0, and 0 bytes egress.** The no-ML floor is deliberately high: a regex-and-heuristics parser over OCR-noisy text sets the bar a model has to clear before its latency and cost are worth paying.
 
-**Local · qwen2.5:3b-instruct via Ollama**
+### Local · qwen2.5:3b-instruct via Ollama
 
 > **100% parse · 96.3% field accuracy · 36.0% exact match · code F1 81.0 · anomaly F1 61.5 — 23.6 s p50 on an 8 GB M1, $0, 0 bytes egress.** The 3B *never fails to structure a document* and edges the floor on field accuracy, but trails on exact match, codes, and anomalies. The anomaly gap is a cascade, not a reasoning failure: misread charges poison the deterministic sum check and raise false flags. Verdict on this corpus: the local model's win is robustness on noise, not accuracy.
 
-**Groq · openai/gpt-oss-120b**
+### Groq · openai/gpt-oss-120b
 
 > **100% parse · 98.3% field accuracy · 78.0% exact match · code F1 99.6 · anomaly F1 95.2 — $0.0008/doc metered ($0 on the free tier), 97,303 bytes egress.** Forty times the local model's parameters clears the floor on three of four headline metrics — and the egress column finally shows a number: **97 KB of (synthetic) PHI left the machine to buy that accuracy.** That's the thesis in one row: scale buys accuracy, and the price is denominated in bytes as much as dollars.
 
@@ -97,7 +97,7 @@ For the local path: install [Ollama](https://ollama.com), `ollama pull qwen2.5:3
 
 ## Project structure
 
-```
+```text
 src/lib/contract.ts    ← the authority: domain types, Zod schemas, metrics, defaults
 src/lib/codes/         ICD-10-CM + CPT datasets with synonyms and typical fees
 src/generators/        seeded superbill generator + OCR-noise renderer
