@@ -10,7 +10,7 @@ This is the **third leg** of the `AI_ML/` lane, deliberately filling the gap the
 other two leave:
 
 | Project | Lane | What it proves |
-|---|---|---|
+| --- | --- | --- |
 | `IMC_Prosperity` (TradeTell) | RAG / retrieval | *Retrieve* to ground a hosted model |
 | `Helm` | Agent / orchestration / measurement | *Orchestrate + measure* hosted models, find where they break |
 | **Enclave** | **Local inference + agentic + adaptation** | Run it *locally* where hosted models legally can't go — and prove the local model is good enough |
@@ -22,7 +22,7 @@ other two leave:
 Targets the AI-build internships, head-on:
 
 | Job | Signal Enclave hits |
-|---|---|
+| --- | --- |
 | **Armada Recovery** (AI-Native Dev) | Near-exact stack: Next.js + TS + shadcn/ui, healthcare data, regulated industry, dashboards. Bedrock is our hosted baseline. |
 | **PPRG Holdings** (AI Eng) | Local LLMs + agentic system — the literal job description. |
 | **TALD** (Generative AI Dev) | The code-matching / semantic-search-over-records feature = "search / recommendations / matching." |
@@ -105,7 +105,7 @@ ground truth (no real PHI — generate it deterministically, like Helm's policy
 engine). Run the *same* agent against local vs Bedrock:
 
 | Metric | Local (Ollama) | Bedrock (baseline) |
-|---|---|---|
+| --- | --- | --- |
 | Field accuracy (%) | — | — |
 | Exact-match rate (%) | — | — |
 | Code-match F1 | — | — |

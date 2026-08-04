@@ -68,7 +68,7 @@ Behind the browser, the measurement pipeline does the real work: `runDocument` s
 ## The providers
 
 | Provider | What it is | Marginal cost | Where document bytes go |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `rules` | Deterministic regex/heuristic parser — the no-ML floor | $0 | Nowhere. In-process. |
 | `local` | Open-weights model via Ollama (`qwen2.5:3b-instruct`) | $0 | `localhost`. Never off-machine. |
 | `groq` | Open-weights at datacenter scale (`openai/gpt-oss-120b`) | $0 on free tier (list price metered) | Groq. Counted byte-for-byte as `egressBytes`. |
