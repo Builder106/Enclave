@@ -27,7 +27,7 @@
     "@kobalte/core": "^0.13.7",
     "@libsql/client": "^0.17.4",
     "@solidjs/meta": "^0.29.3",
-    "@solidjs/router": "^0.16.3",
+    "@solidjs/router": "^1.0.0",
     "@solidjs/start": "^1.0.0",
     "ai": "^7.0.50",
     "class-variance-authority": "^0.7.1",
