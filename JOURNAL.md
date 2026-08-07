@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-08-07 — Benchmark methodology & SolidJS migration plan defined #milestone
+
+Created `docs/BENCHMARK-METHODOLOGY.md` detailing the statistical eval metrics (field accuracy, exact match, ICD-10 F1, CPT F1, financial anomaly F1) and OCR noise rendering algorithms. Planned out the 4-way Compare Mode and Phase 1/2 of the SolidJS migration strategy.
+
 ## 2026-06-12 — Baseline closeout: README/banner, Dependabot, Gherkin E2E + demo GIF #milestone
 
 Audited the repo against the standard baseline after the workbench rebuild and closed the gaps. The README was still selling the deleted dashboard — rewrote it around the workbench (new intro, user-journey mermaid, fixed badges/anchor, quickstart with the export-demo step). Replaced the dark-instrument banners with light ones matching the workbench (SVG + rasterized PNG). Added `.github/dependabot.yml` (weekly npm grouped + actions). Built the two-suite Playwright setup the baseline calls for: a QA Gherkin suite (playwright-bdd, 4 scenarios, accessible-locator steps, wired into a CI e2e job) and a demo suite (single-worker, slowMo, video, warmup to dodge the 0-byte-first-video bug) that records a narrative walkthrough — converted webm→GIF for the README via `pnpm demo && pnpm demo:gif`. The GIF carries the whole thesis in 10 seconds: run Groq, watch 1.9 KB cross device→cloud; switch to Local, the same extraction runs sealed at 0 B.
