@@ -15,6 +15,7 @@ This document details the evaluation methodology, metric definitions, and OCR-no
 ## 2. Metric Definitions
 
 ### Primary Accuracy Metrics
+
 1. **Field Accuracy (%)**: The proportion of top-level and nested key-value pairs matching ground truth exactly after string normalization (lowercase, space trim).
 2. **Exact Match Rate (%)**: The percentage of documents where *every single field* matches ground truth without any error.
 3. **ICD-10 Code F1 Score**: Harmonic mean of precision and recall for predicted vs ground-truth diagnosis codes.
@@ -22,6 +23,7 @@ This document details the evaluation methodology, metric definitions, and OCR-no
 5. **Anomaly Detection F1 Score**: Precision and recall of detecting intentionally injected billing discrepancies (e.g. sum mismatches, fee ceiling breaches, invalid modifier combinations).
 
 ### System & Egress Metrics
+
 1. **Marginal Cost ($ / doc)**: API billing cost incurred per document run.
 2. **PHI Egress (Bytes)**: Measured network payload size (bytes) transmitted outside the local machine boundary (`0 B` for `rules` and `local` Ollama extractors).
 3. **Latency (p50 / p95 ms)**: End-to-end processing time per document from text ingestion to structured JSON emission.
@@ -44,12 +46,15 @@ Evaluations are reproducible using the CLI:
 
 ```bash
 # Run deterministic rules parser baseline
+
 pnpm measure --provider rules --seed 1
 
 # Run local Qwen2.5 3B model via Ollama
+
 pnpm measure --provider local --seed 1
 
 # Run Groq cloud model
+
 pnpm measure --provider groq --seed 1
 ```
 
