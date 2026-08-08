@@ -40,7 +40,7 @@ jobs:
       # different consumers require incompatible majors so no single version
       # satisfies both without a risky framework bump. --ignore-unfixable
       # skips only advisories with no available fix.
-      - run: pnpm audit --audit-level high --ignore-unfixable
+      - run: pnpm audit --audit-level high
 
       - run: pnpm typecheck
 
