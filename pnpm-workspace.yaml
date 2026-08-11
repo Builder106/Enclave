@@ -16,5 +16,7 @@ minimumReleaseAgeExclude:
 verifyDepsBeforeRun: false
 overrides:
   h3: ">=1.15.6"
+  brace-expansion: "^2.1.4"
+  nanoid: "^3.3.17"
 packages:
   - "."
