@@ -13,7 +13,7 @@ other two leave:
 | --- | --- | --- |
 | `IMC_Prosperity` (TradeTell) | RAG / retrieval | *Retrieve* to ground a hosted model |
 | `Helm` | Agent / orchestration / measurement | *Orchestrate + measure* hosted models, find where they break |
-| **Enclave** | **Local inference + agentic + adaptation** | Run it *locally* where hosted models legally can't go — and prove the local model is good enough |
+| **Enclave**|**Local inference + agentic + adaptation** | Run it *locally* where hosted models legally can't go — and prove the local model is good enough |
 
 ---
 
@@ -57,11 +57,11 @@ failure honestly). The eval harness is the product.
 
 Mirror Armada's stack where it's cheap to; deviate only for the local-model thesis.
 
-- **Frontend:** Next.js (App Router) + TypeScript + **shadcn/ui** + Tailwind. The dashboard *is* the demo (Helm pattern).
-- **Agent + provider layer:** **Vercel AI SDK**. One interface, two providers — `@ai-sdk/amazon-bedrock` for the hosted baseline and an OpenAI-compatible provider pointed at **Ollama** for local. Swapping local↔hosted for the A/B eval is a one-line provider switch. Tool-calling via the SDK's `tools` API.
-- **Local model:** Ollama serving **Qwen2.5 7B** or **Llama 3.1 8B** (both support tool use). Vision/OCR: **Llama 3.2 Vision 11B** if hardware allows, else **docTR/Tesseract** → text → LLM. (LinuxBenchHub already characterizes your hardware — use it to pick.)
+- **Frontend:**Next.js (App Router) + TypeScript +**shadcn/ui** + Tailwind. The dashboard *is* the demo (Helm pattern).
+- **Agent + provider layer:** **Vercel AI SDK**. One interface, two providers — `@ai-sdk/amazon-bedrock`for the hosted baseline and an OpenAI-compatible provider pointed at **Ollama** for local. Swapping local↔hosted for the A/B eval is a one-line provider switch. Tool-calling via the SDK's`tools` API.
+- **Local model:**Ollama serving**Qwen2.5 7B**or**Llama 3.1 8B**(both support tool use). Vision/OCR:**Llama 3.2 Vision 11B**if hardware allows, else**docTR/Tesseract** → text → LLM. (LinuxBenchHub already characterizes your hardware — use it to pick.)
 - **Hosted baseline:** **AWS Bedrock** (Claude). This is the comparison, not the default path.
-- **Data:** **Drizzle ORM** targeting **Azure SQL / SQL Server** (Armada match), with **libSQL/SQLite** for local dev — which also echoes MedCore, easing the harvest.
+- **Data:** **Drizzle ORM**targeting**Azure SQL / SQL Server**(Armada match), with**libSQL/SQLite** for local dev — which also echoes MedCore, easing the harvest.
 - **Eval/data generation:** TypeScript, seeded + deterministic (Helm's `measure:*` DNA).
 
 Keep it a **monolith** — Next.js full-stack, Ollama as external infra (a model server, not a second app). No microservice sprawl.
@@ -73,7 +73,7 @@ Keep it a **monolith** — Next.js full-stack, Ollama as external infra (a model
 Lift, don't merge — separate repo, but pull these in:
 
 - `YAIS/MedCore/server/src/lib/fhir-mappers.ts` — FHIR R4 resource shapes. Reuse the clinical data model wholesale.
-- `YAIS/MedCore/server/src/middleware/audit.ts` + `routes/audit.ts` — audit-log pattern. Regulated-industry table stakes Armada cares about.
+- `YAIS/MedCore/server/src/middleware/audit.ts`+`routes/audit.ts` — audit-log pattern. Regulated-industry table stakes Armada cares about.
 - MedCore's **offline-first / mock-fallback architecture** — conceptual; it's literally the thesis Enclave extends.
 
 **Narrative link:** Enclave is the AI-layer sequel to MedCore's offline thesis —
@@ -111,7 +111,7 @@ engine). Run the *same* agent against local vs Bedrock:
 | Code-match F1 | — | — |
 | $ / document | ~$0 marginal | measured |
 | p50 / p95 latency (ms) | — | — |
-| **PHI egress (bytes)** | **0** | measured |
+| **PHI egress (bytes)**|**0** | measured |
 
 `pnpm measure:enclave --seed 1 --provider {local,bedrock}` reproduces each
 column. The dashboard renders both side-by-side.
@@ -125,7 +125,7 @@ column. The dashboard renders both side-by-side.
 - **Phase 2 — Local extraction.** OCR ingestion + single-shot field extraction on the local model.
 - **Phase 3 — Agent loop.** Wire the 5 tools; Zod validation; audit logging.
 - **Phase 4 — Hosted baseline.** Same agent, Bedrock provider (one-line swap via AI SDK).
-- **Phase 5 — Eval + dashboard.** `measure:enclave`, the comparison table, local-vs-Bedrock dashboard. **This is the MVP demo.**
+- **Phase 5 — Eval + dashboard.**`measure:enclave`, the comparison table, local-vs-Bedrock dashboard.**This is the MVP demo.**
 - **Stretch — Adaptation.** LoRA fine-tune the local model on the extraction task to close any parity gap. Adds the *fine-tuning* competency → folder then ticks every applied-GenAI box (retrieve / orchestrate / local / adapt).
 
 MVP = Phases 0–5. The stretch is what turns "good portfolio project" into "and I can train models too."
@@ -142,4 +142,4 @@ MVP = Phases 0–5. The stretch is what turns "good portfolio project" into "and
 
 ## Repo baseline (per standard checklist)
 
-Banner (light/dark SVG, 1200×420) · shields.io badges (CI, Node, Next, license, demo-live) · Mermaid sequence diagram of the agent loop · Gherkin E2E demo recordings (reuse your Playwright + reporter infra) · `CONTRIBUTING.md` · `JOURNAL.md` · root `LICENSE` (MIT) · SVG logo + 180×180 apple-touch-icon · `.github/workflows/deploy.yml` gating tests + deploying to Vercel · unit + integration tests · `@vercel/analytics` + `@vercel/speed-insights` (Vercel deploy). Set repo description, homepage = live demo, 8–12 topics.
+Banner (light/dark SVG, 1200×420) · shields.io badges (CI, Node, Next, license, demo-live) · Mermaid sequence diagram of the agent loop · Gherkin E2E demo recordings (reuse your Playwright + reporter infra) · `CONTRIBUTING.md`·`JOURNAL.md`· root`LICENSE`(MIT) · SVG logo + 180×180 apple-touch-icon ·`.github/workflows/deploy.yml`gating tests + deploying to Vercel · unit + integration tests ·`@vercel/analytics`+`@vercel/speed-insights` (Vercel deploy). Set repo description, homepage = live demo, 8–12 topics.

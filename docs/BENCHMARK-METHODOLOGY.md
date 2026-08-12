@@ -25,7 +25,7 @@ This document details the evaluation methodology, metric definitions, and OCR-no
 ### System & Egress Metrics
 
 1. **Marginal Cost ($ / doc)**: API billing cost incurred per document run.
-2. **PHI Egress (Bytes)**: Measured network payload size (bytes) transmitted outside the local machine boundary (`0 B` for `rules` and `local` Ollama extractors).
+2. **PHI Egress (Bytes)**: Measured network payload size (bytes) transmitted outside the local machine boundary (`0 B`for`rules`and`local` Ollama extractors).
 3. **Latency (p50 / p95 ms)**: End-to-end processing time per document from text ingestion to structured JSON emission.
 
 ---
@@ -34,7 +34,7 @@ This document details the evaluation methodology, metric definitions, and OCR-no
 
 To simulate real-world physical superbill scans, synthetic text undergoes controlled noise transformations before being fed to extractors:
 
-- **Character Swaps:** Substitution of visually similar glyphs (e.g., `0` ↔ `O`, `1` ↔ `l`, `5` ↔ `S`).
+- **Character Swaps:** Substitution of visually similar glyphs (e.g., `0`↔`O`, `1`↔`l`, `5`↔`S`).
 - **Line Smearing:** Random insertion of whitespace and tab shifts across columns.
 - **Header Truncation:** Drop of leading pixels or non-critical header lines simulating scanner margin cutoffs.
 
@@ -45,6 +45,7 @@ To simulate real-world physical superbill scans, synthetic text undergoes contro
 Evaluations are reproducible using the CLI:
 
 ```bash
+
 # Run deterministic rules parser baseline
 
 pnpm measure --provider rules --seed 1

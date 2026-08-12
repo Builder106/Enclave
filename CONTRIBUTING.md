@@ -30,19 +30,28 @@ generator need nothing external.
 ## Guardrails (non-negotiable)
 
 - **Integer cents everywhere.** Money is never a float. No `12.5`, no
-  `"$12.50"` in domain values — `1250` cents.
+
+  `"$12.50"`in domain values —`1250` cents.
+
 - **Seeded determinism.** Domain logic (generation, rules extraction, code
+
   matching, anomaly detection, eval scoring) must never read the wall clock
   or use environment randomness. Seeded RNG only. Same seed → byte-identical
   output, forever.
+
 - **`src/lib/contract.ts` is authoritative.** All shared types live there and
+
   are imported from `@/lib/contract`. If a change needs a new shape, change
   the contract first and conform everything to it — never fork a local copy.
-- **`rules` and `local` providers must never make network calls to model
+
+- **`rules`and`local` providers must never make network calls to model
+
   APIs.** That is the thesis of the project. `rules` touches nothing;
-  `local` talks only to the loopback Ollama endpoint. Only `bedrock` may
+  `local`talks only to the loopback Ollama endpoint. Only`bedrock` may
   leave the machine, and its egress is measured.
+
 - **No real PHI, ever.** Synthetic data only. Do not paste, commit, or test
+
   against real patient documents — even "anonymized" ones.
 
 ## Commit messages
@@ -55,7 +64,9 @@ Scope when useful — `feat(agent): retry malformed extraction once`.
 
 1. Branch from `main`.
 2. `pnpm typecheck && pnpm test && pnpm build` must pass locally (CI gates on
+
    all three).
+
 3. Keep PRs single-purpose; contract changes get their own PR.
 
 ## Out of scope (for now)

@@ -12,7 +12,7 @@
 [![PHI egress](https://img.shields.io/badge/PHI%20egress-measured-15825a.svg)](#the-providers)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
 
-> **Enclave is an interactive workbench for clinical document extraction that never phones home.** Load a synthetic superbill, pick an extractor — a deterministic rules parser, a local on-device model, or a hosted cloud model — and run it. The source document sits on the left; a structured record fills in on the right, field-by-field, checked against ground truth. Beside it, a live gauge shows the thing that matters: whether the document's bytes stayed **on-device (0 B)** or **crossed to the cloud**. Privacy isn't asserted here — it's measured, per run, and you watch it happen.
+> **Enclave is an interactive workbench for clinical document extraction that never phones home.**Load a synthetic superbill, pick an extractor — a deterministic rules parser, a local on-device model, or a hosted cloud model — and run it. The source document sits on the left; a structured record fills in on the right, field-by-field, checked against ground truth. Beside it, a live gauge shows the thing that matters: whether the document's bytes stayed**on-device (0 B)**or**crossed to the cloud**. Privacy isn't asserted here — it's measured, per run, and you watch it happen.
 
 **▶ Live: [enclave-iota.vercel.app](https://enclave-iota.vercel.app)** — pick a specimen, pick an extractor, hit Run.
 
@@ -23,7 +23,7 @@
 
 ![Enclave workbench walkthrough](assets/demo-workbench.gif)
 
-Pick a specimen, choose **Groq**, and watch ~2 KB travel device→cloud as the fields populate; switch to **Local** and the same extraction runs sealed at **0 B**. ([mp4](assets/demo-workbench.mp4)) — recorded by the Gherkin demo suite (`pnpm demo && pnpm demo:gif`).
+Pick a specimen, choose **Groq**, and watch ~2 KB travel device→cloud as the fields populate; switch to **Local**and the same extraction runs sealed at**0 B**. ([mp4](assets/demo-workbench.mp4)) — recorded by the Gherkin demo suite (`pnpm demo && pnpm demo:gif`).
 
 </details>
 
@@ -41,7 +41,7 @@ Every number below is a real measured run over 50 held-out synthetic superbills 
 
 ### Groq · openai/gpt-oss-120b
 
-> **100% parse · 98.3% field accuracy · 78.0% exact match · code F1 99.6 · anomaly F1 95.2 — $0.0008/doc metered ($0 on the free tier), 97,303 bytes egress.** Forty times the local model's parameters clears the floor on three of four headline metrics — and the egress column finally shows a number: **97 KB of (synthetic) PHI left the machine to buy that accuracy.** That's the thesis in one row: scale buys accuracy, and the price is denominated in bytes as much as dollars.
+> **100% parse · 98.3% field accuracy · 78.0% exact match · code F1 99.6 · anomaly F1 95.2 — $0.0008/doc metered ($0 on the free tier), 97,303 bytes egress.**Forty times the local model's parameters clears the floor on three of four headline metrics — and the egress column finally shows a number:**97 KB of (synthetic) PHI left the machine to buy that accuracy.** That's the thesis in one row: scale buys accuracy, and the price is denominated in bytes as much as dollars.
 
 **Bedrock · Claude Haiku 4.5 — pending, honestly.** Blocked by AWS's new-account token-quota ramp (not self-service adjustable). A launchd job (`scripts/trial03-cron.sh`) retries daily with `--resume`, measuring only still-unmeasured docs each reset and removing its own schedule once coverage hits 50/50. Quota throttles are excluded from metrics as infrastructure noise.
 
@@ -63,7 +63,7 @@ sequenceDiagram
     Note over WB,Data: results are REAL measured runs, produced offline by the<br/>rules/local/groq pipeline; the workbench plays them back
 ```
 
-Behind the browser, the measurement pipeline does the real work: `runDocument` sends the noisy text to one provider for the *perception* step (text → structured fields), then **deterministic TypeScript** does code matching and anomaly detection — the model proposes, the code disposes. (A lesson carried from [Helm](https://github.com/Builder106/helm), where an LLM that read invoices at 91.9% dropped to 54% on multi-step policy math.) Every run is persisted with its egress-byte count; `scripts/export-demo.ts` joins those results with the source documents into what the workbench plays back.
+Behind the browser, the measurement pipeline does the real work: `runDocument`sends the noisy text to one provider for the *perception* step (text → structured fields), then **deterministic TypeScript** does code matching and anomaly detection — the model proposes, the code disposes. (A lesson carried from [Helm](https://github.com/Builder106/helm), where an LLM that read invoices at 91.9% dropped to 54% on multi-step policy math.) Every run is persisted with its egress-byte count;`scripts/export-demo.ts` joins those results with the source documents into what the workbench plays back.
 
 ## The providers
 
@@ -72,7 +72,7 @@ Behind the browser, the measurement pipeline does the real work: `runDocument` s
 | `rules` | Deterministic regex/heuristic parser — the no-ML floor | $0 | Nowhere. In-process. |
 | `local` | Open-weights model via Ollama (`qwen2.5:3b-instruct`) | $0 | `localhost`. Never off-machine. |
 | `groq` | Open-weights at datacenter scale (`openai/gpt-oss-120b`) | $0 on free tier (list price metered) | Groq. Counted byte-for-byte as `egressBytes`. |
-| `bedrock` | Claude on AWS Bedrock — the hosted frontier ceiling | per-token (metered) | AWS. Counted byte-for-byte as `egressBytes`. |
+| `bedrock`| Claude on AWS Bedrock — the hosted frontier ceiling | per-token (metered) | AWS. Counted byte-for-byte as`egressBytes`. |
 
 Same pipeline, same eval split, same metrics — the provider is a one-line swap through the AI SDK. The question the workbench makes you feel: *is a 3B model running where the PHI lives good enough to skip the cloud?*
 
@@ -93,7 +93,7 @@ pnpm dev                                # the workbench at localhost:3000
 pnpm test                               # vitest suite (engine)
 ```
 
-For the local path: install [Ollama](https://ollama.com), `ollama pull qwen2.5:3b-instruct`, then `pnpm measure --provider local`. For Groq, set `GROQ_API_KEY` in `.env` (free tier covers the eval volume). Each hosted credential is only touched by its own provider.
+For the local path: install [Ollama](https://ollama.com), `ollama pull qwen2.5:3b-instruct`, then `pnpm measure --provider local`. For Groq, set `GROQ_API_KEY`in`.env` (free tier covers the eval volume). Each hosted credential is only touched by its own provider.
 
 ## Project structure
 
