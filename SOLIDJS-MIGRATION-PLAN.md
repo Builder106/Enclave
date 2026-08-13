@@ -17,20 +17,23 @@ In the new architecture:
 1. **Initialize SolidStart:** Bootstrap a new SolidStart project to act as the target architecture.
 2. **Port Configuration:** Migrate `tailwind.config.js`, `postcss.config.js`, and global CSS over to the new SolidStart setup.
 3. **UI Primitive Swap:**
-  - Identify all Shadcn UI components currently used (buttons, dialogs, dropdowns).
-  - Install and configure `kobalte`(Solid's accessible unstyled primitives) and set up`shadcn-solid` to replicate the existing design system.
+
+- Identify all Shadcn UI components currently used (buttons, dialogs, dropdowns).
+- Install and configure `kobalte`(Solid's accessible unstyled primitives) and set up`shadcn-solid` to replicate the existing design system.
 
 ## 3. Phase 2: Component Migration
 
 1. **State Translation:**
-  - Convert all `useState`calls to`createSignal`.
-  - Convert all `useEffect`calls to`createEffect`or`onMount`.
-  - Convert `useMemo`to`createMemo`.
-2. **JSX Adjustments:**
-  - Solid uses standard HTML attributes (e.g., `class`instead of`className`, `for`instead of`htmlFor`).
-  - Control flow components must be used instead of array mapping (`<For each={items}>`instead of`items.map()`).
-  - Conditional rendering uses `<Show when={condition}>`instead of`condition && <Component />`.
-3. **Routing:** Port `src/app` page components to SolidStart's file-based routing equivalent (`src/routes`).
+
+- Convert all `useState`calls to`createSignal`.
+- Convert all `useEffect`calls to`createEffect`or`onMount`.
+- Convert `useMemo`to`createMemo`.
+1. **JSX Adjustments:**
+
+- Solid uses standard HTML attributes (e.g., `class`instead of`className`, `for`instead of`htmlFor`).
+- Control flow components must be used instead of array mapping (`<For each={items}>`instead of`items.map()`).
+- Conditional rendering uses `<Show when={condition}>`instead of`condition && <Component />`.
+1. **Routing:** Port `src/app` page components to SolidStart's file-based routing equivalent (`src/routes`).
 
 ## 4. Phase 3: Data Fetching and SSR
 

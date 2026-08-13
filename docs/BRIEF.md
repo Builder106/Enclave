@@ -13,7 +13,7 @@ other two leave:
 | --- | --- | --- |
 | `IMC_Prosperity` (TradeTell) | RAG / retrieval | *Retrieve* to ground a hosted model |
 | `Helm` | Agent / orchestration / measurement | *Orchestrate + measure* hosted models, find where they break |
-| **Enclave**|**Local inference + agentic + adaptation** | Run it *locally* where hosted models legally can't go — and prove the local model is good enough |
+| **Enclave** | **Local inference + agentic + adaptation** | Run it *locally* where hosted models legally can't go — and prove the local model is good enough |
 
 ---
 
@@ -111,7 +111,7 @@ engine). Run the *same* agent against local vs Bedrock:
 | Code-match F1 | — | — |
 | $ / document | ~$0 marginal | measured |
 | p50 / p95 latency (ms) | — | — |
-| **PHI egress (bytes)**|**0** | measured |
+| **PHI egress (bytes)** | **0** | measured |
 
 `pnpm measure:enclave --seed 1 --provider {local,bedrock}` reproduces each
 column. The dashboard renders both side-by-side.

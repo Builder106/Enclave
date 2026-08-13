@@ -72,7 +72,7 @@ Behind the browser, the measurement pipeline does the real work: `runDocument`se
 | `rules` | Deterministic regex/heuristic parser — the no-ML floor | $0 | Nowhere. In-process. |
 | `local` | Open-weights model via Ollama (`qwen2.5:3b-instruct`) | $0 | `localhost`. Never off-machine. |
 | `groq` | Open-weights at datacenter scale (`openai/gpt-oss-120b`) | $0 on free tier (list price metered) | Groq. Counted byte-for-byte as `egressBytes`. |
-| `bedrock`| Claude on AWS Bedrock — the hosted frontier ceiling | per-token (metered) | AWS. Counted byte-for-byte as`egressBytes`. |
+| `bedrock` | Claude on AWS Bedrock — the hosted frontier ceiling | per-token (metered) | AWS. Counted byte-for-byte as`egressBytes`. |
 
 Same pipeline, same eval split, same metrics — the provider is a one-line swap through the AI SDK. The question the workbench makes you feel: *is a 3B model running where the PHI lives good enough to skip the cloud?*
 
