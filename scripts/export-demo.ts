@@ -5,7 +5,7 @@
 // live inference.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import {
   ANOMALY_KINDS,
   type DocumentRunResult,
