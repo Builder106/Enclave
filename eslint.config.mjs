@@ -15,6 +15,12 @@ const eslintConfig = defineConfig([
   ...typescriptEslint.configs.recommended,
   {
     files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parserOptions: {
+        ecmaVersion: "esnext",
+        sourceType: "module",
+      },
+    },
     rules: {
       "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
       "@typescript-eslint/no-explicit-any": "warn",

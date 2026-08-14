@@ -1,7 +1,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)"  srcset="assets/banner-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.svg">
-  <img alt="Enclave — clinical document AI that never phones home" src="assets/banner-light.svg">
+  <img alt="Enclave: Private AI for medical records" src="assets/banner-light.svg">
 </picture>
 
 [![CI](https://github.com/Builder106/enclave/actions/workflows/ci.yml/badge.svg)](https://github.com/Builder106/enclave/actions/workflows/ci.yml)
@@ -12,14 +12,20 @@
 [![PHI egress](https://img.shields.io/badge/PHI%20egress-measured-15825a.svg)](#the-providers)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](#license)
 
-> **Enclave is an interactive workbench for clinical document extraction that never phones home.**Load a synthetic superbill, pick an extractor — a deterministic rules parser, a local on-device model, or a hosted cloud model — and run it. The source document sits on the left; a structured record fills in on the right, field-by-field, checked against ground truth. Beside it, a live gauge shows the thing that matters: whether the document's bytes stayed**on-device (0 B)**or**crossed to the cloud**. Privacy isn't asserted here — it's measured, per run, and you watch it happen.
+> **Private AI for medical records.** Enclave extracts diagnoses and billing codes directly on your computer without sending patient data to the cloud.
 
-**▶ Live: [enclave-iota.vercel.app](https://enclave-iota.vercel.app)** — pick a specimen, pick an extractor, hit Run.
+## 💡 What is Enclave?
+
+Processing sensitive medical paperwork with cloud AI risks exposing private patient records. Enclave runs lightweight AI models directly on the hospital's local computer. It accurately extracts diagnoses and insurance codes while tracking data flow to guarantee no patient information leaves the building.
+
+Enclave provides an interactive workbench for clinical document extraction. Load a synthetic medical bill, choose an extractor (a deterministic rules parser, an on-device local model, or a hosted cloud model), and run it. The source document displays on the left while structured medical records populate on the right, measured with a live gauge proving whether bytes stayed on-device (0 B) or crossed to the cloud.
+
+**▶ Live Demo:** [enclave-iota.vercel.app](https://enclave-iota.vercel.app) (pick a specimen, pick an extractor, and hit Run).
 
 ## The workbench
 
 <details open>
-<summary><b>Walkthrough — run a specimen in the cloud, then keep it on-device</b></summary>
+<summary><b>Walkthrough: Run a specimen in the cloud, then keep it on-device</b></summary>
 
 ![Enclave workbench walkthrough](assets/demo-workbench.gif)
 

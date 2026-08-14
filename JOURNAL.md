@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-08-14: Accessible plain-English documentation update #decision
+
+Updated the project description, tagline, and README introductory overview to emphasize healthcare privacy and local AI in accessible language. Framed the benchmark results around preventing medical record cloud leaks while preserving clinical data extraction accuracy.
+
 ## 2026-08-07 — Benchmark methodology & SolidJS migration plan defined #milestone
 
 Created `docs/BENCHMARK-METHODOLOGY.md` detailing the statistical eval metrics (field accuracy, exact match, ICD-10 F1, CPT F1, financial anomaly F1) and OCR noise rendering algorithms. Planned out the 4-way Compare Mode and Phase 1/2 of the SolidJS migration strategy.
