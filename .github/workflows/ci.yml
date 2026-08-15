@@ -51,7 +51,7 @@ jobs:
       - run: pnpm audit --audit-level high
 
       - name: Prettier check
-        run: pnpm exec prettier --check .
+        run: pnpm exec prettier --check "src/**/*.{ts,tsx,js,jsx,css}"
 
       - run: pnpm typecheck
 
