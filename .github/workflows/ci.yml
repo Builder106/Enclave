@@ -50,8 +50,7 @@ jobs:
       # skips only advisories with no available fix.
       - run: pnpm audit --audit-level high
 
-      - name: Prettier check
-        run: pnpm exec prettier --check "src/**/*.{ts,tsx,js,jsx,css}"
+      - run: pnpm lint
 
       - run: pnpm typecheck
 
