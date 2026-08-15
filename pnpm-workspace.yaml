@@ -1,13 +1,12 @@
 packages:
   - .
 allowBuilds:
-  '@parcel/watcher': set this to true or false
-  '@tailwindcss/oxide': set this to true or false
-  esbuild: set this to true or false
-  unrs-resolver: set this to true or false
+  '@parcel/watcher': true
+  '@tailwindcss/oxide': true
+  esbuild: true
+  unrs-resolver: true
 overrides:
   brace-expansion: ^2.1.4
   nanoid: ^6.0.1
   h3: ^1.15.9
-  esbuild: ^0.24.3
   '@ai-sdk/provider-utils': ^5.0.27
