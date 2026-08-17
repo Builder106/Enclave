@@ -28,11 +28,13 @@ In the new architecture:
 - Convert all `useState`calls to`createSignal`.
 - Convert all `useEffect`calls to`createEffect`or`onMount`.
 - Convert `useMemo`to`createMemo`.
+
 1. **JSX Adjustments:**
 
 - Solid uses standard HTML attributes (e.g., `class`instead of`className`, `for`instead of`htmlFor`).
 - Control flow components must be used instead of array mapping (`<For each={items}>`instead of`items.map()`).
 - Conditional rendering uses `<Show when={condition}>`instead of`condition && <Component />`.
+
 1. **Routing:** Port `src/app` page components to SolidStart's file-based routing equivalent (`src/routes`).
 
 ## 4. Phase 3: Data Fetching and SSR
