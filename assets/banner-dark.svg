@@ -15,13 +15,12 @@
 
   <text x="232" y="198" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="80" font-weight="700" letter-spacing="-1.5" fill="#e9eef3">Enclave</text>
   <text x="235" y="248" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif" font-size="28" fill="#9aa6b2">Clinical document AI that <tspan fill="#2bb27e" font-weight="600">never phones home</tspan>.</text>
-  <text x="235" y="302" font-family="ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace" font-size="18" letter-spacing="3.5" fill="#6b7785">LOAD&#160;·&#160;EXTRACT&#160;·&#160;SEE WHAT LEAVES THE MACHINE</text>
+  <text x="235" y="302" font-family="ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace" font-size="18" letter-spacing="3.5" fill="#6b7785">LOAD | EXTRACT | SEE WHAT LEAVES THE MACHINE</text>
 
   <!-- thesis chip -->
   <g transform="translate(905 176)">
     <rect x="0" y="0" width="202" height="68" rx="8" fill="#11181f" stroke="#2bb27e" stroke-opacity="0.45"/>
-    <circle cx="24" cy="25" r="4" fill="#2bb27e"/>
-    <text x="38" y="30" font-family="ui-monospace,'SFMono-Regular',Menlo,monospace" font-size="13" letter-spacing="2" fill="#2bb27e">ON-DEVICE</text>
+    <text x="24" y="30" font-family="ui-monospace,'SFMono-Regular',Menlo,monospace" font-size="13" letter-spacing="2" fill="#2bb27e">ON-DEVICE</text>
     <text x="24" y="55" font-family="ui-monospace,'SFMono-Regular',Menlo,monospace" font-size="21" font-weight="700" fill="#e9eef3">0 B egress</text>
   </g>
 </svg>
