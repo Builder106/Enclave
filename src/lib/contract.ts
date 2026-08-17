@@ -4,7 +4,7 @@
 
 import { z } from "zod";
 
-// ── Providers ────────────────────────────────────────────────────────────────
+// Providers
 
 export const PROVIDERS = ["rules", "local", "groq", "bedrock"] as const;
 export type Provider = (typeof PROVIDERS)[number];
@@ -16,7 +16,7 @@ export const PROVIDER_LABELS: Record<Provider, string> = {
   bedrock: "AWS Bedrock (hosted)",
 };
 
-// ── Clinical/billing domain ──────────────────────────────────────────────────
+// Clinical/billing domain
 
 export const ENCOUNTER_TYPES = [
   "office_visit",
@@ -95,7 +95,7 @@ export const SuperbillTruthSchema = z.object({
 });
 export type SuperbillTruth = z.infer<typeof SuperbillTruthSchema>;
 
-// ── Generated documents ──────────────────────────────────────────────────────
+// Generated documents
 
 export interface GeneratedDocument {
   /** e.g. DOC-00042 */
@@ -113,7 +113,7 @@ export interface GeneratedDocument {
   split: "dev" | "eval";
 }
 
-// ── Extraction (what providers produce from the noisy text) ─────────────────
+// Extraction (what providers produce from the noisy text)
 // Codes are nullable: some documents omit printed codes, and match_codes
 // resolves them afterward against the ICD-10/CPT datasets.
 
@@ -189,7 +189,7 @@ export const AnomalyFlagSchema = z.object({
 });
 export type AnomalyFlag = z.infer<typeof AnomalyFlagSchema>;
 
-// ── Code datasets ────────────────────────────────────────────────────────────
+// Code datasets
 
 export interface CodeEntry {
   code: string;
@@ -200,7 +200,7 @@ export interface CodeEntry {
   typicalFeeCents?: number;
 }
 
-// ── Per-document run results ─────────────────────────────────────────────────
+// Per-document run results
 
 export interface TokenUsage {
   inputTokens: number;
@@ -231,7 +231,7 @@ export interface DocumentRunResult {
  *   ): Promise<DocumentRunResult>
  */
 
-// ── Eval metrics ─────────────────────────────────────────────────────────────
+// Eval metrics
 
 export interface FieldScore {
   field: string;
@@ -276,7 +276,7 @@ export interface MeasurementFile {
   results: EvalMetrics[];
 }
 
-// ── Pricing (USD per million tokens) ─────────────────────────────────────────
+// Pricing (USD per million tokens)
 
 export const BEDROCK_PRICING: Record<string, { inPerMTok: number; outPerMTok: number }> = {
   // Claude Haiku 4.5 on Bedrock
@@ -294,7 +294,7 @@ export const GROQ_PRICING: Record<string, { inPerMTok: number; outPerMTok: numbe
   "llama-3.1-8b-instant": { inPerMTok: 0.05, outPerMTok: 0.08 },
 };
 
-// ── Defaults ─────────────────────────────────────────────────────────────────
+// Defaults
 
 export const DEFAULTS = {
   /** 8 GB M1 ceiling: a 3B-class model is the honest local pick */

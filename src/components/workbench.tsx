@@ -57,17 +57,13 @@ export function Workbench(props: {
   const [provider, setProvider] = createSignal<DemoProviderId>("groq");
   const [phase, setPhase] = createSignal<Phase>("idle");
   const [egressShown, setEgressShown] = createSignal(0);
-  
-  // mutable ref instead of useRef
   let runToken = 0;
 
   const doc = () => docs().find((d) => d.id === docId());
   const result = () => doc()?.providers[provider()];
   const hosted = () => PROVIDER_META[provider()].hosted;
 
-  // Selecting a different specimen or extractor resets the bench.
   createEffect(() => {
-    // track docId and provider to trigger reset
     docId();
     provider();
     
@@ -120,7 +116,6 @@ export function Workbench(props: {
       }
     >
       <main class="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-5 py-8 sm:px-8">
-        {/* Header */}
         <header class="flex items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <Mark class="size-9 shrink-0 text-primary" />
@@ -136,7 +131,6 @@ export function Workbench(props: {
           </div>
         </header>
 
-        {/* Control bar */}
         <section class="flex flex-col gap-4 rounded-lg border border-border bg-card p-4 sm:flex-row sm:items-end sm:justify-between">
           <label class="flex flex-col gap-1.5">
             <span class="eyebrow text-ink-faint">Specimen</span>
@@ -196,7 +190,6 @@ export function Workbench(props: {
           </button>
         </section>
 
-        {/* Workspace: specimen ↔ extraction */}
         <div class="grid gap-4 lg:grid-cols-2">
           <SpecimenPanel
             doc={doc()!}
@@ -208,7 +201,6 @@ export function Workbench(props: {
           <ExtractionPanel phase={phase()} provider={provider()} result={result()} />
         </div>
 
-        {/* Result summary */}
         <Show when={phase() === "result" && result()}>
           {(res) => (
             <section class="flex flex-wrap items-center gap-x-6 gap-y-2 rounded-lg border border-border bg-card px-4 py-3 text-sm">
