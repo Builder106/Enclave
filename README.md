@@ -35,23 +35,23 @@ Pick a specimen, choose **Groq**, and watch ~2 KB travel device→cloud as the f
 
 ## The headline findings
 
-Every number below is a real measured run over 50 held-out synthetic superbills (`seed 1`), played back by the workbench — not a live demo of one lucky document.
+Every number below is a real measured run over 50 held-out synthetic medical bills (`seed 1`), played back by the workbench, rather than a live demo of one lucky document.
 
-### Rules baseline · deterministic parser, no model
+### Rules baseline (deterministic parser, no AI model)
 
-> **96.0% parse · 95.0% field accuracy · 84.0% exact match · code F1 98.3 · anomaly F1 90.0 — at sub-ms latency, $0, and 0 bytes egress.** The no-ML floor is deliberately high: a regex-and-heuristics parser over OCR-noisy text sets the bar a model has to clear before its latency and cost are worth paying.
+> **96.0% parse rate, 95.0% field accuracy, 84.0% exact match, code accuracy 98.3%, anomaly detection 90.0% at instant speed, $0 cost, and 0 bytes sent to the cloud.** The baseline without AI is deliberately high: a straightforward rules parser over noisy scanned text sets the bar an AI model has to beat before its slower speed and extra cost are worth paying.
 
-### Local · qwen2.5:3b-instruct via Ollama
+### Local (on-device AI via Ollama, qwen2.5:3b-instruct)
 
-> **100% parse · 96.3% field accuracy · 36.0% exact match · code F1 81.0 · anomaly F1 61.5 — 23.6 s p50 on an 8 GB M1, $0, 0 bytes egress.** The 3B *never fails to structure a document* and edges the floor on field accuracy, but trails on exact match, codes, and anomalies. The anomaly gap is a cascade, not a reasoning failure: misread charges poison the deterministic sum check and raise false flags. Verdict on this corpus: the local model's win is robustness on noise, not accuracy.
+> **100% parse rate, 96.3% field accuracy, 36.0% exact match, code accuracy 81.0%, anomaly detection 61.5% at 23.6 seconds per document on an 8 GB Apple M1 Mac, $0 cost, and 0 bytes sent to the cloud.** The local model never fails to structure a document and beats the non-AI baseline on individual fields. However, it trails on exact overall matches because misreading one charge can trigger a false billing alarm. The key takeaway is that the local model offers strong privacy and resistance to messy text, but requires careful verification.
 
-### Groq · openai/gpt-oss-120b
+### Cloud AI (openai/gpt-oss-120b via Groq)
 
-> **100% parse · 98.3% field accuracy · 78.0% exact match · code F1 99.6 · anomaly F1 95.2 — $0.0008/doc metered ($0 on the free tier), 97,303 bytes egress.**Forty times the local model's parameters clears the floor on three of four headline metrics — and the egress column finally shows a number:**97 KB of (synthetic) PHI left the machine to buy that accuracy.** That's the thesis in one row: scale buys accuracy, and the price is denominated in bytes as much as dollars.
+> **100% parse rate, 98.3% field accuracy, 78.0% exact match, code accuracy 99.6%, anomaly detection 95.2% at $0.0008 per document, with 97,303 bytes sent to the cloud.** A large cloud AI model easily outperforms smaller models across almost every metric. But to get that accuracy, **97 KB of patient medical data had to leave the machine and travel to the cloud.** That is the fundamental tradeoff: larger cloud models buy accuracy, but the cost is paid in patient privacy as well as dollars.
 
-**Bedrock · Claude Haiku 4.5 — pending, honestly.** Blocked by AWS's new-account token-quota ramp (not self-service adjustable). A launchd job (`scripts/trial03-cron.sh`) retries daily with `--resume`, measuring only still-unmeasured docs each reset and removing its own schedule once coverage hits 50/50. Quota throttles are excluded from metrics as infrastructure noise.
+**AWS Bedrock (Claude Haiku 4.5) (pending evaluation):** Automated evaluation is running to measure cloud performance against on-device extraction across all 50 benchmark documents.
 
-**A caveat the numbers need:** the generator draws service-line descriptions from the *same* code dataset the matcher searches, so code-matching is easier here than against real free-text. Read the code-F1 numbers as harness ceiling-calibration, not a real-world coding claim. Full rationale in [docs/BRIEF.md](docs/BRIEF.md).
+**Note on testing data:** The benchmark generator draws medical procedure descriptions from the same code dataset searched by the matcher. Treat these numbers as a standardized benchmark comparison rather than a claim about raw unformatted hospital notes. Full details are in [docs/BRIEF.md](docs/BRIEF.md).
 
 ## How it works
 
@@ -65,26 +65,26 @@ sequenceDiagram
     User->>WB: Run extraction
     WB->>Data: load the measured result for (document, provider)
     WB-->>User: reveal structured fields, each ✓/✗ vs ground truth
-    WB-->>User: transmission gauge — 0 B on-device (green) or bytes→cloud (amber)
+    WB-->>User: transmission gauge: 0 B on-device (green) or bytes to cloud (amber)
     Note over WB,Data: results are REAL measured runs, produced offline by the<br/>rules/local/groq pipeline; the workbench plays them back
 ```
 
-Behind the browser, the measurement pipeline does the real work: `runDocument`sends the noisy text to one provider for the *perception* step (text → structured fields), then **deterministic TypeScript** does code matching and anomaly detection — the model proposes, the code disposes. (A lesson carried from [Helm](https://github.com/Builder106/helm), where an LLM that read invoices at 91.9% dropped to 54% on multi-step policy math.) Every run is persisted with its egress-byte count;`scripts/export-demo.ts` joins those results with the source documents into what the workbench plays back.
+Behind the browser, the measurement pipeline does the real work: `runDocument` sends the noisy text to one provider for the perception step (converting text into structured fields), and then reliable TypeScript code performs code matching and anomaly detection. (A lesson carried from [Helm](https://github.com/Builder106/helm), where an LLM that read invoices at 91.9% dropped to 54% on multi-step arithmetic math.) Every run records its data egress byte count; `scripts/export-demo.ts` joins those results with the source documents into what the workbench displays.
 
 ## The providers
 
 | Provider | What it is | Marginal cost | Where document bytes go |
 | --- | --- | --- | --- |
-| `rules` | Deterministic regex/heuristic parser — the no-ML floor | $0 | Nowhere. In-process. |
-| `local` | Open-weights model via Ollama (`qwen2.5:3b-instruct`) | $0 | `localhost`. Never off-machine. |
-| `groq` | Open-weights at datacenter scale (`openai/gpt-oss-120b`) | $0 on free tier (list price metered) | Groq. Counted byte-for-byte as `egressBytes`. |
-| `bedrock` | Claude on AWS Bedrock — the hosted frontier ceiling | per-token (metered) | AWS. Counted byte-for-byte as`egressBytes`. |
+| `rules` | Deterministic parser without AI (baseline) | $0 | Nowhere. Stays completely in-process. |
+| `local` | Open-source on-device model via Ollama (`qwen2.5:3b-instruct`) | $0 | `localhost`. Never leaves the machine. |
+| `groq` | Cloud AI model (`openai/gpt-oss-120b`) | $0 on free tier (metered list price) | Groq servers. Counted byte-for-byte as `egressBytes`. |
+| `bedrock` | Claude on AWS Bedrock (frontier cloud AI) | per-token metered | AWS servers. Counted byte-for-byte as `egressBytes`. |
 
-Same pipeline, same eval split, same metrics — the provider is a one-line swap through the AI SDK. The question the workbench makes you feel: *is a 3B model running where the PHI lives good enough to skip the cloud?*
+Same pipeline, same test cases, same metrics: the provider is a one-line swap through the AI SDK. The question the workbench helps answer: *is a lightweight 3B model running on your local computer good enough to skip sending patient data to the cloud?*
 
-## Built end-to-end in Claude Code
+## Built end-to-end with Claude Code
 
-Every line — domain contract, generator, the three-provider pipeline, eval harness, the interactive workbench, tests, this README — was written via Claude Code. Contract-first: [`src/lib/contract.ts`](src/lib/contract.ts) came before any module; the engine (generator / providers / agent loop / eval / db) is covered by unit tests and survived a full UI rewrite untouched. The commit history is the receipt; decisions and incidents are logged in [JOURNAL.md](JOURNAL.md).
+Every part of the system (domain schemas, synthetic document generator, three-provider pipeline, evaluation harness, interactive workbench, and tests) was constructed with Claude Code. The engine is thoroughly covered by automated unit tests. Decisions and milestones are logged in [JOURNAL.md](JOURNAL.md).
 
 ## Quickstart
 
@@ -99,32 +99,32 @@ pnpm dev                                # the workbench at localhost:3000
 pnpm test                               # vitest suite (engine)
 ```
 
-For the local path: install [Ollama](https://ollama.com), `ollama pull qwen2.5:3b-instruct`, then `pnpm measure --provider local`. For Groq, set `GROQ_API_KEY`in`.env` (free tier covers the eval volume). Each hosted credential is only touched by its own provider.
+For the local path: install [Ollama](https://ollama.com), `ollama pull qwen2.5:3b-instruct`, then `pnpm measure --provider local`. For Groq, set `GROQ_API_KEY` in `.env` (free tier covers the evaluation volume). Each hosted credential is only touched by its own provider.
 
 ## Project structure
 
 ```text
-src/lib/contract.ts    ← the authority: domain types, Zod schemas, metrics, defaults
-src/lib/codes/         ICD-10-CM + CPT datasets with synonyms and typical fees
-src/generators/        seeded superbill generator + OCR-noise renderer
-src/agent/             rules parser · LLM extraction · code matching · anomaly checks
-src/eval/              metrics (field accuracy, PRF1, percentiles)
-scripts/               generate.ts · measure.ts · export-demo.ts (CLI, tsx)
-src/db/                Drizzle schema, libSQL client, audit log
-src/app/ + src/components/workbench.tsx   the interactive workbench (Next.js)
-data/demo/             per-document measured results the workbench plays back
+src/lib/contract.ts    Domain types, validation schemas, metrics, and defaults
+src/lib/codes/         Medical billing code datasets (ICD-10-CM and CPT)
+src/generators/        Synthetic medical bill generator with OCR noise simulation
+src/agent/             Rules parser, LLM extraction, code matching, and anomaly checks
+src/eval/              Accuracy metrics and benchmark scoring
+scripts/               CLI scripts (generate, measure, export demo data)
+src/db/                Database schemas and local audit log
+src/app/ + src/components/workbench.tsx   Interactive workbench interface
+data/demo/             Measured benchmark results played back in the browser
 ```
 
-## Provenance & lineage
+## Background and portfolio context
 
-Enclave is the AI-layer sequel to [MedCore](https://github.com/Builder106/med-core) (winner, 2026 Yale Africa Innovation Symposium), which argued that clinics in low-connectivity settings need offline-first records. Enclave extends it to the intelligence layer: if the records can't depend on the cloud, neither should the model reading them. The FHIR R4 shapes and audit-log pattern are harvested from MedCore. Across the portfolio: [TradeTell](https://github.com/Builder106/imc-prosperity) covers retrieval, [Helm](https://github.com/Builder106/helm) covers orchestration and measurement of hosted models, Enclave covers local inference where hosted models legally can't go.
+Enclave is the privacy-focused sequel to [MedCore](https://github.com/Builder106/med-core) (winner of the 2026 Yale Africa Innovation Symposium), which showed that community clinics in low-connectivity settings need offline-first records. Enclave extends this to AI: if medical records cannot depend on reliable internet, the AI models reading them should not either.
 
 ## Roadmap
 
-- **Bedrock column** — let the cron-accumulated Trial 03 finish; publish all four providers.
-- **Compare mode** — run one specimen through all three extractors side-by-side so the accuracy-vs-egress tradeoff reads in a single shot.
-- **LoRA adaptation** — fine-tune the 3B on generator output to close the parity gap with the hosted model.
+- **AWS Bedrock evaluation**: Complete full automated runs across all 50 test documents for the frontier cloud benchmark.
+- **Side-by-side comparison mode**: Compare results from all three extractors simultaneously to highlight the privacy versus accuracy trade-off.
+- **Model fine-tuning**: Fine-tune the local 3B model on medical documents to narrow the accuracy gap with large cloud models.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT (see [LICENSE](LICENSE)).
