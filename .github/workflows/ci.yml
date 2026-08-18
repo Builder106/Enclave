@@ -50,6 +50,9 @@ jobs:
       # skips only advisories with no available fix.
       - run: pnpm audit --audit-level high
 
+      - name: Open-source license compliance scan
+        run: pnpm dlx license-checker --summary --production
+
       - run: pnpm lint || true
 
       - run: pnpm typecheck
