@@ -53,7 +53,7 @@ jobs:
       - name: Open-source license compliance scan
         run: pnpm dlx license-checker --summary --production
 
-      - run: pnpm lint || true
+      - run: pnpm lint
 
       - run: pnpm typecheck
 
