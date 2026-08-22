@@ -17,6 +17,7 @@ const eslintConfig = defineConfig([
     files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {
       parserOptions: {
+        warnOnUnsupportedTypeScriptVersion: false,
         ecmaVersion: "esnext",
         sourceType: "module",
       },
