@@ -24,6 +24,26 @@ describe("matchCode", () => {
     expect(matchCode("zzz qqq xxx", CPT_CODES)).toBeNull();
     expect(matchCode("zzz qqq xxx", ICD10_CODES)).toBeNull();
   });
+
+  it("repairs OCR substitutions in printed ICD and CPT codes", () => {
+    const extraction = {
+      ...({} as Extraction),
+      patient: { firstName: "A", lastName: "B", dob: "1985-03-12", mrn: "MRN-1234567", phone: "5555555555" },
+      encounter: { date: "2026-01-01", type: "office_visit" as const, providerName: "Dr. A", npi: "1234567890" },
+      diagnoses: [{ description: "Fever", icd10: "R5O.9" }],
+      lines: [{ description: "CMP", cpt: "8O053", units: 1, chargeCents: 4500 }],
+      payer: { name: "Plan", memberId: "ABC12345678" },
+      printedTotalCents: 4500,
+    };
+    const resolved = resolveCodes(extraction);
+    expect(resolved?.diagnoses[0].icd10).toBe("R50.9");
+    expect(resolved?.lines[0].cpt).toBe("80053");
+  });
+
+  it("returns null when a missing description cannot be matched", () => {
+    const extraction = { ...({} as Extraction), diagnoses: [{ description: "unmatchable", icd10: null }], lines: [] };
+    expect(resolveCodes(extraction)).toBeNull();
+  });
 });
 
 describe("resolveCodes", () => {

@@ -159,4 +159,23 @@ describe("computeMetrics", () => {
     const m = computeMetrics([doc], [result]);
     expect(m.anomalyDetection).toEqual({ precision: 1, recall: 1, f1: 1 });
   });
+
+  it("handles empty results and missing extractions", () => {
+    const empty = computeMetrics([], []);
+    expect(empty).toMatchObject({ provider: "rules", model: "unknown", docCount: 0, parseRate: 0, fieldAccuracy: 0, exactMatchRate: 0, costPerDocUsd: 0, latencyMsP50: 0, latencyMsP95: 0 });
+
+    const result = makeResult("DOC-00001", null as unknown as Extraction, null, {
+      extraction: null,
+      resolved: null,
+      anomalies: [{ kind: "charge_total_mismatch", detail: "wrong" }],
+    });
+    const metrics = computeMetrics([makeDoc("DOC-00001", 0, truthA)], [result]);
+    expect(metrics.parseRate).toBe(0);
+    expect(metrics.codeMatch).toEqual({ precision: 0, recall: 0, f1: 0 });
+    expect(metrics.anomalyDetection).toEqual({ precision: 0, recall: 0, f1: 0 });
+  });
+
+  it("rejects results for unknown documents", () => {
+    expect(() => computeMetrics([], [makeResult("missing", perfectA, perfectA)])).toThrow("no document");
+  });
 });

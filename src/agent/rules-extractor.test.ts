@@ -24,4 +24,11 @@ describe("rulesExtract", () => {
     const parsed = docs.filter((doc) => rulesExtract(doc.text) !== null);
     expect(parsed.length).toBeGreaterThanOrEqual(3);
   });
+
+  it("handles merged names and leaves malformed member IDs unchanged", () => {
+    const text = `PATIENT\nName: AdaOkafor\nDOB: 1985-03-12\nMRN: MRN-1234567\nPhone: (555) 555-0101\n\nENCOUNTER\nDate of Service: 2026-01-15\nVisit Type: Office Visit\nRendering Provider: Dr. Park\nNPI: 1234567890\n\nDIAGNOSES\n  1. Fever [R50.9]\n\nSERVICES\nDESCRIPTION CPT QTY CHARGE\nFever consult 99213 1 $180.00\nTOTAL DUE: $180.00\n\nINSURANCE / PAYER\nPlan: Plan\nMember ID: bad-id`;
+    const result = rulesExtract(text);
+    expect(result?.patient).toMatchObject({ firstName: "Ada", lastName: "Okafor" });
+    expect(result?.payer.memberId).toBe("bad-id");
+  });
 });

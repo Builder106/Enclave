@@ -9,6 +9,7 @@
     "start": "vinxi start",
     "lint": "eslint --max-warnings 0",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "generate": "tsx scripts/generate.ts",

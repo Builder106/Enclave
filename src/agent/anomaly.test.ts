@@ -58,4 +58,14 @@ describe("detectAnomalies", () => {
     expect(flags.map((f) => f.kind)).toEqual(["unit_charge_outlier"]);
     expect(flags[0].detail).toContain(CMP.code);
   });
+
+  it("flags missing totals and placeholder member IDs", () => {
+    const fixture = cleanFixture();
+    fixture.printedTotalCents = null;
+    fixture.payer.memberId = "unknown";
+    expect(detectAnomalies(fixture).map((flag) => flag.kind)).toEqual([
+      "missing_field",
+      "missing_field",
+    ]);
+  });
 });
