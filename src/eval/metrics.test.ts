@@ -72,8 +72,8 @@ function extractionFrom(truth: SuperbillTruth): ResolvedExtraction {
 
 function makeResult(
   documentId: string,
-  extraction: Extraction,
-  resolved: ResolvedExtraction,
+  extraction: Extraction | null,
+  resolved: ResolvedExtraction | null,
   overrides?: Partial<DocumentRunResult>,
 ): DocumentRunResult {
   return {
@@ -164,7 +164,7 @@ describe("computeMetrics", () => {
     const empty = computeMetrics([], []);
     expect(empty).toMatchObject({ provider: "rules", model: "unknown", docCount: 0, parseRate: 0, fieldAccuracy: 0, exactMatchRate: 0, costPerDocUsd: 0, latencyMsP50: 0, latencyMsP95: 0 });
 
-    const result = makeResult("DOC-00001", null as unknown as Extraction, null, {
+    const result = makeResult("DOC-00001", null, null, {
       extraction: null,
       resolved: null,
       anomalies: [{ kind: "charge_total_mismatch", detail: "wrong" }],
