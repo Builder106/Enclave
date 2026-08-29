@@ -5,6 +5,15 @@ allowBuilds:
   '@tailwindcss/oxide': true
   esbuild: true
   unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@ai-sdk/amazon-bedrock@5.0.67'
+  - '@ai-sdk/anthropic@4.0.45'
+  - '@ai-sdk/gateway@4.0.68'
+  - '@ai-sdk/openai-compatible@3.0.40'
+  - '@ai-sdk/openai@4.0.51'
+  - ai@7.0.84
+  - lucide-solid@1.35.0
+  - zod@4.5.1
 overrides:
   brace-expansion: ^2.1.4
   nanoid: ^6.0.1
