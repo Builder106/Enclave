@@ -77,7 +77,7 @@ const prf = (p: PRF1): string => `P ${pct(p.precision)}  R ${pct(p.recall)}  F1 
 
 function printMetrics(metrics: EvalMetrics, seed: number): void {
   console.log("");
-  console.log(`── ${metrics.provider} · ${metrics.model} · seed ${seed} ──`);
+  console.log(`── ${metrics.provider} | ${metrics.model} | seed ${seed} ──`);
   console.log(`docs             ${metrics.docCount}`);
   console.log(`parse rate       ${pct(metrics.parseRate)}`);
   console.log(`field accuracy   ${pct(metrics.fieldAccuracy)}`);

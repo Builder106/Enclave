@@ -58,6 +58,6 @@ export const PROVIDER_META: Record<
   { label: string; sublabel: string; hosted: boolean }
 > = {
   rules: { label: "Rules", sublabel: "deterministic parser", hosted: false },
-  local: { label: "Local", sublabel: "qwen2.5:3b · Ollama", hosted: false },
-  groq: { label: "Groq", sublabel: "gpt-oss-120b · cloud", hosted: true },
+  local: { label: "Local", sublabel: "qwen2.5:3b | Ollama", hosted: false },
+  groq: { label: "Groq", sublabel: "gpt-oss-120b | cloud", hosted: true },
 };

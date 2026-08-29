@@ -66,7 +66,7 @@ export function Workbench(props: {
   createEffect(() => {
     docId();
     provider();
-    
+
     runToken++;
     setPhase("idle");
     setEgressShown(0);
@@ -80,7 +80,7 @@ export function Workbench(props: {
     setEgressShown(0);
     const transmitting = hosted() && res.egressBytes > 0;
     const workMs = transmitting ? 1300 : 750;
-    
+
     if (transmitting) {
       const start = performance.now();
       const tick = () => {
@@ -91,7 +91,7 @@ export function Workbench(props: {
       };
       requestAnimationFrame(tick);
     }
-    
+
     window.setTimeout(() => {
       if (runToken !== currentToken) return;
       setPhase("result");
@@ -127,7 +127,7 @@ export function Workbench(props: {
             </div>
           </div>
           <div class="eyebrow hidden text-ink-faint sm:block">
-            intake workbench{props.commit ? ` · #${props.commit}` : ""}
+            intake workbench{props.commit ? ` | #${props.commit}` : ""}
           </div>
         </header>
 
@@ -142,7 +142,7 @@ export function Workbench(props: {
               <For each={docs()}>
                 {(d) => (
                   <option value={d.id}>
-                    {d.id} · {d.label}
+                    {d.id} — {d.label}
                   </option>
                 )}
               </For>
@@ -159,11 +159,10 @@ export function Workbench(props: {
                     <button
                       type="button"
                       onClick={() => setProvider(p)}
-                      class={`rounded-md border px-3 py-1.5 text-left transition-colors ${
-                        active()
+                      class={`rounded-md border px-3 py-1.5 text-left transition-colors ${active()
                           ? "border-primary bg-primary/10"
                           : "border-border bg-card hover:border-ink-faint"
-                      }`}
+                        }`}
                     >
                       <span
                         class={`block text-sm font-medium ${active() ? "text-primary" : "text-foreground"}`}
@@ -236,8 +235,8 @@ export function Workbench(props: {
 
         <footer class="mt-2 flex flex-col gap-1.5 border-t border-border pt-4 text-xs text-muted-foreground">
           <p class="font-mono">
-            Real measured runs played back · rules → deterministic · local →
-            qwen2.5:3b · groq → gpt-oss-120b
+            Real measured runs played back | rules → deterministic | local →
+            qwen2.5:3b | groq → gpt-oss-120b
           </p>
           <p>
             Synthetic specimens, no real PHI. The egress gauge is the bytes of
@@ -309,7 +308,7 @@ function SpecimenPanel(props: {
   return (
     <section class="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
       <div class="flex items-center justify-between border-b border-border px-4 py-2.5">
-        <span class="eyebrow text-ink-faint">Specimen · {props.doc.id}</span>
+        <span class="eyebrow text-ink-faint">Specimen | {props.doc.id}</span>
         <TransmissionGauge
           hosted={hosted()}
           transmitting={transmitting()}
@@ -334,14 +333,14 @@ function TransmissionGauge(props: {
 }) {
   // Hosted: device → cloud track with a travelling packet while transmitting.
   const live = () => props.transmitting || (props.phase === "result" && props.finalBytes > 0);
-  
+
   return (
     <Show
       when={props.hosted}
       fallback={
         <span class="flex items-center gap-1.5 text-primary">
           <span class="size-1.5 rounded-full bg-primary" />
-          <span class="eyebrow">on-device · 0 B</span>
+          <span class="eyebrow">on-device | 0 B</span>
         </span>
       }
     >
@@ -371,7 +370,7 @@ function ExtractionPanel(props: {
     <section class="flex flex-col overflow-hidden rounded-lg border border-border bg-card">
       <div class="flex items-center justify-between border-b border-border px-4 py-2.5">
         <span class="eyebrow text-ink-faint">
-          Extraction · {PROVIDER_META[props.provider].label}
+          Extraction | {PROVIDER_META[props.provider].label}
         </span>
         <Show when={props.phase === "result" && props.result && !props.result.error}>
           <span class="eyebrow text-primary">structured</span>
@@ -461,9 +460,8 @@ function Extracted(props: { result: DemoProviderResult }) {
       <Show when={props.result.lines.length > 0}>
         <div
           style={{
-            "animation-delay": `${
-              (props.result.fields.length + (props.result.diagnoses.length ? 1 : 0)) * 45
-            }ms`,
+            "animation-delay": `${(props.result.fields.length + (props.result.diagnoses.length ? 1 : 0)) * 45
+              }ms`,
           }}
           class="field-in"
         >
