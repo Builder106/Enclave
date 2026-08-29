@@ -29,7 +29,7 @@
     "@libsql/client": "^0.17.4",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^1.0.0",
-    "@solidjs/start": "^1.3.2",
+    "@solidjs/start": "^2.0.4",
     "ai": "^7.0.84",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
