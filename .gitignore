@@ -1,8 +1,6 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
+# Dependencies
+node_modules/
+.pnp/
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -10,44 +8,48 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
-# solidstart / vinxi
+# Build output
+dist/
+build/
 .vinxi/
 .output/
-# production
-/build
+.turbo/
+*.tsbuildinfo
 
-# misc
+# Environment & credentials
+.env
+.env.*
+!.env.example
 *.pem
+.npmrc
 
-# debug
+# Database & local storage
+data/*.db
+data/*.db-journal
+data/*.db-shm
+data/*.db-wal
+drizzle/meta
+
+# Testing & coverage
+coverage/
+.coverage
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.features-gen/
+
+# Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
+# Deployments & editor
 .vercel
-
-# typescript
-*.tsbuildinfo
-
-# enclave
-data/*.db
-data/*.db-journal
-.env
-drizzle/meta
-.npmrc
-
-# playwright / bdd
-.features-gen/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-.vscode/settings.json
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.recommended.json
+.idea/
+Thumbs.db
