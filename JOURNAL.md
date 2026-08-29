@@ -4,6 +4,10 @@
 > things happen — retrospectives need this raw material to land.
 > Reverse-chronological; one paragraph max per entry.
 
+## 2026-08-29: Git deployment branches restricted #decision
+
+Git-triggered Vercel deployments now run only for `main` and `staging`. The project keeps `main` as its Production Branch, so `staging` is the only Preview branch. Replaced the old `ignoreCommand`, which created canceled deployment records for blocked branches, with `git.deploymentEnabled`.
+
 ## 2026-08-14: Accessible plain-English documentation update #decision
 
 Updated the project description, tagline, and README introductory overview to emphasize healthcare privacy and local AI in accessible language. Framed the benchmark results around preventing medical record cloud leaks while preserving clinical data extraction accuracy.
