@@ -8,6 +8,9 @@ updates:
     cooldown:
       include: ["*"]
       delay: 7 days
+    ignore:
+      - dependency-name: "typescript"
+        versions: [">= 7.0.0"]
     groups:
       # One PR for the routine minor/patch churn; majors stay separate.
       minor-and-patch:
@@ -18,6 +21,6 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    ignore:
-      - dependency-name: "typescript"
-        versions: [">= 7.0.0"]
+    groups:
+      actions:
+        patterns: ["*"]
