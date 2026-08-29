@@ -6,7 +6,7 @@
 
 [![CI](https://github.com/Builder106/enclave/actions/workflows/ci.yml/badge.svg)](https://github.com/Builder106/enclave/actions/workflows/ci.yml)
 [![Node](https://img.shields.io/badge/Node-22%2B-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-16-black.svg?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![SolidStart](https://img.shields.io/badge/SolidStart-1.3-446b9e.svg?logo=solid&logoColor=white)](https://start.solidjs.com/)
 [![AI SDK](https://img.shields.io/badge/AI%20SDK-5-0A0A0A.svg)](https://ai-sdk.dev/)
 [![Live demo](https://img.shields.io/badge/demo-live-success.svg)](https://enclave-iota.vercel.app)
 [![PHI egress](https://img.shields.io/badge/PHI%20egress-measured-15825a.svg)](#the-providers)
@@ -29,7 +29,7 @@ Enclave provides an interactive workbench for clinical document extraction. Load
 
 ![Enclave workbench walkthrough](assets/demo-workbench.gif)
 
-Pick a specimen, choose **Groq**, and watch ~2 KB travel device→cloud as the fields populate; switch to **Local**and the same extraction runs sealed at**0 B**. ([mp4](assets/demo-workbench.mp4)) — recorded by the Gherkin demo suite (`pnpm demo && pnpm demo:gif`).
+Pick a specimen, choose **Groq**, and watch ~2 KB travel device→cloud as the fields populate; switch to **Local** and the same extraction runs sealed at **0 B**. ([mp4](assets/demo-workbench.mp4)) — recorded by the Gherkin demo suite (`pnpm demo && pnpm demo:gif`).
 
 </details>
 
@@ -60,7 +60,7 @@ sequenceDiagram
     autonumber
     actor User
     participant WB as Workbench (browser)
-    participant Data as data/demo · measured results
+    participant Data as data/demo | measured results
     User->>WB: pick a specimen + an extractor (rules / local / groq)
     User->>WB: Run extraction
     WB->>Data: load the measured result for (document, provider)

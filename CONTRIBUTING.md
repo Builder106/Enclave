@@ -20,7 +20,7 @@ pnpm generate              # generate the synthetic superbill corpus (seeded)
 pnpm measure               # run providers over the eval split, write measurements
 pnpm test                  # vitest
 pnpm typecheck             # tsc --noEmit
-pnpm dev                   # Next.js dashboard
+pnpm dev                   # Workbench dev server
 ```
 
 A local [Ollama](https://ollama.com) install is required for the `local`
