@@ -64,7 +64,7 @@ jobs:
 
       - run: pnpm typecheck
 
-      - run: pnpm test
+      - run: pnpm test:coverage
         env:
           VITE_CONFIG_NATIVE_IGNORE_WARNING: "true"
 
