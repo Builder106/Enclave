@@ -1,24 +1,24 @@
-import { ExtractionSchema, type EncounterType, type Extraction } from "@/lib/contract";
+import { ExtractionSchema, type EncounterType, type Extraction } from '@/lib/contract';
 
-type Section = "none" | "patient" | "encounter" | "diagnoses" | "services" | "payer";
+type Section = 'none' | 'patient' | 'encounter' | 'diagnoses' | 'services' | 'payer';
 
 const SECTION_NAMES: Record<string, Section | undefined> = {
-  PATIENT: "patient",
-  ENCOUNTER: "encounter",
-  DIAGNOSES: "diagnoses",
-  SERVICES: "services",
-  INSURANCEPAYER: "payer",
+  PATIENT: 'patient',
+  ENCOUNTER: 'encounter',
+  DIAGNOSES: 'diagnoses',
+  SERVICES: 'services',
+  INSURANCEPAYER: 'payer',
 };
 
 const VISIT_TYPES: Record<string, EncounterType | undefined> = {
-  OFFICEVISIT: "office_visit",
-  TELEHEALTH: "telehealth",
-  URGENTCARE: "urgent_care",
-  PREVENTIVEVISIT: "preventive",
+  OFFICEVISIT: 'office_visit',
+  TELEHEALTH: 'telehealth',
+  URGENTCARE: 'urgent_care',
+  PREVENTIVEVISIT: 'preventive',
 };
 
-const MISREAD_TO_DIGIT: Record<string, string> = { O: "0", l: "1", S: "5", B: "8" };
-const DIGIT_TO_LETTER: Record<string, string> = { "0": "O", "1": "L", "5": "S", "8": "B" };
+const MISREAD_TO_DIGIT: Record<string, string> = { O: '0', l: '1', S: '5', B: '8' };
+const DIGIT_TO_LETTER: Record<string, string> = { '0': 'O', '1': 'L', '5': 'S', '8': 'B' };
 
 // OCR noise flips header-case and swaps O/0, l/1, S/5, B/8. Labels may be
 // repaired freely; values only ever via the strict format anchors below.
@@ -26,7 +26,7 @@ function normalizeLabel(s: string): string {
   return s
     .toUpperCase()
     .replace(/[0158]/g, (d) => DIGIT_TO_LETTER[d])
-    .replace(/[^A-Z]/g, "");
+    .replace(/[^A-Z]/g, '');
 }
 
 function repairAnchoredDigits(s: string): string {
@@ -34,7 +34,7 @@ function repairAnchoredDigits(s: string): string {
 }
 
 function collapse(s: string): string {
-  return s.replace(/\s+/g, " ").trim();
+  return s.replace(/\s+/g, ' ').trim();
 }
 
 const DATE_RE = /([\dOlSB]{4})-([\dOlSB]{2})-([\dOlSB]{2})/;
@@ -60,17 +60,16 @@ function parseDate(value: string): string | undefined {
 function parseMoneyCents(value: string): number | null {
   const m = MONEY_RE.exec(value);
   if (!m) return null;
-  const repaired = repairAnchoredDigits(m[1]).replace(/,/g, "");
-  if (!/^\d+\.\d{2}$/.test(repaired)) return null;
-  const [dollars, cents] = repaired.split(".");
+  const repaired = repairAnchoredDigits(m[1]).replace(/,/g, '');
+  const [dollars, cents] = repaired.split('.');
   return Number(dollars) * 100 + Number(cents);
 }
 
 function repairMemberId(value: string): string {
-  const v = value.replace(/\s+/g, "");
+  const v = value.replace(/\s+/g, '');
   if (v.length === 11) {
     const fixed =
-      v.slice(0, 3).replace(/5/g, "S").replace(/8/g, "B") + repairAnchoredDigits(v.slice(3));
+      v.slice(0, 3).replace(/5/g, 'S').replace(/8/g, 'B') + repairAnchoredDigits(v.slice(3));
     if (/^[A-Z]{3}\d{8}$/.test(fixed)) return fixed;
   }
   return v;
@@ -86,14 +85,13 @@ interface ParsedLine {
 function parseServiceLine(raw: string, hasCpt: boolean): ParsedLine | null {
   const m = SERVICE_LINE_RE.exec(raw);
   if (!m) return null;
-  const chargeCents = parseMoneyCents(m[2]);
-  if (chargeCents === null) return null;
-  let rest = m[1].replace(/\s+$/, "");
+  const chargeCents = parseMoneyCents(m[2])!;
+  let rest = m[1].replace(/\s+$/, '');
   const qm = QTY_RE.exec(rest);
   if (!qm) return null;
   const units = Number(repairAnchoredDigits(qm[1]));
   if (units < 1) return null;
-  rest = rest.slice(0, rest.length - 1).replace(/\s+$/, "");
+  rest = rest.slice(0, rest.length - 1).replace(/\s+$/, '');
   let cpt: string | null = null;
   if (hasCpt) {
     // Long descriptions overflow their column and abut the CPT with no
@@ -109,7 +107,7 @@ function parseServiceLine(raw: string, hasCpt: boolean): ParsedLine | null {
 }
 
 export function rulesExtract(text: string): Extraction | null {
-  let section: Section = "none";
+  let section: Section = 'none';
 
   let firstName: string | undefined;
   let lastName: string | undefined;
@@ -127,7 +125,7 @@ export function rulesExtract(text: string): Extraction | null {
   const diagnoses: Array<{ description: string; icd10: string | null }> = [];
   const lines: ParsedLine[] = [];
 
-  for (const raw of text.split("\n")) {
+  for (const raw of text.split('\n')) {
     if (!raw.trim() || DASH_RULE_RE.test(raw)) continue;
 
     const lineNorm = normalizeLabel(raw);
@@ -137,7 +135,7 @@ export function rulesExtract(text: string): Extraction | null {
       continue;
     }
 
-    if (section === "diagnoses") {
+    if (section === 'diagnoses') {
       const dm = DIAGNOSIS_RE.exec(raw);
       if (!dm) continue;
       let body = dm[1];
@@ -152,13 +150,13 @@ export function rulesExtract(text: string): Extraction | null {
       continue;
     }
 
-    if (section === "services") {
-      if (lineNorm.includes("DESCRIPTION") && lineNorm.includes("CHARGE")) {
-        hasCpt = lineNorm.includes("CPT");
+    if (section === 'services') {
+      if (lineNorm.includes('DESCRIPTION') && lineNorm.includes('CHARGE')) {
+        hasCpt = lineNorm.includes('CPT');
         continue;
       }
-      const colon = raw.indexOf(":");
-      if (colon !== -1 && normalizeLabel(raw.slice(0, colon)) === "TOTALDUE") {
+      const colon = raw.indexOf(':');
+      if (colon !== -1 && normalizeLabel(raw.slice(0, colon)) === 'TOTALDUE') {
         printedTotalCents = parseMoneyCents(raw.slice(colon + 1));
         continue;
       }
@@ -167,49 +165,49 @@ export function rulesExtract(text: string): Extraction | null {
       continue;
     }
 
-    const colon = raw.indexOf(":");
+    const colon = raw.indexOf(':');
     if (colon === -1) continue;
     const label = normalizeLabel(raw.slice(0, colon));
     const value = raw.slice(colon + 1).trim();
 
-    if (section === "patient") {
-      if (label === "NAME") {
-        const tokens = collapse(value).split(" ");
+    if (section === 'patient') {
+      if (label === 'NAME') {
+        const tokens = collapse(value).split(' ');
         if (tokens.length >= 2) {
           firstName = tokens[0];
-          lastName = tokens.slice(1).join(" ");
+          lastName = tokens.slice(1).join(' ');
         } else {
-          const nm = MERGED_NAME_RE.exec(tokens[0] ?? "");
+          const nm = MERGED_NAME_RE.exec(tokens[0]);
           if (nm) {
             firstName = nm[1];
             lastName = nm[2];
           }
         }
-      } else if (label === "DOB") {
+      } else if (label === 'DOB') {
         dob = parseDate(value);
-      } else if (label === "MRN") {
+      } else if (label === 'MRN') {
         mrn = MRN_RE.exec(value)?.[0];
-      } else if (label === "PHONE") {
+      } else if (label === 'PHONE') {
         const pm = PHONE_RE.exec(value);
         phone = pm
           ? `(${repairAnchoredDigits(pm[1])}) ${repairAnchoredDigits(pm[2])}-${repairAnchoredDigits(pm[3])}`
           : collapse(value) || undefined;
       }
-    } else if (section === "encounter") {
-      if (label === "DATEOFSERVICE") {
+    } else if (section === 'encounter') {
+      if (label === 'DATEOFSERVICE') {
         encounterDate = parseDate(value);
-      } else if (label === "VISITTYPE") {
+      } else if (label === 'VISITTYPE') {
         visitType = VISIT_TYPES[normalizeLabel(value)];
-      } else if (label === "RENDERINGPROVIDER") {
+      } else if (label === 'RENDERINGPROVIDER') {
         providerName = collapse(value) || undefined;
-      } else if (label === "NPI") {
-        const v = value.replace(/\s+/g, "");
+      } else if (label === 'NPI') {
+        const v = value.replace(/\s+/g, '');
         npi = NPI_RE.test(v) ? repairAnchoredDigits(v) : v || undefined;
       }
-    } else if (section === "payer") {
-      if (label === "PLAN") {
+    } else if (section === 'payer') {
+      if (label === 'PLAN') {
         payerName = collapse(value) || undefined;
-      } else if (label === "MEMBERID") {
+      } else if (label === 'MEMBERID') {
         memberId = repairMemberId(value) || undefined;
       }
     }
