@@ -1,26 +1,23 @@
-import { defineConfig } from "vitest/config";
-import path from "node:path";
+import { defineConfig } from 'vitest/config';
+import path from 'node:path';
 
 export default defineConfig({
   resolve: {
-    alias: { "@": path.resolve(__dirname, "src") },
+    alias: { '@': path.resolve(__dirname, 'src') },
   },
   test: {
-    environment: "node",
-    include: ["src/**/*.test.ts", "tests/**/*.test.ts"],
+    environment: 'node',
+    include: ['src/**/*.test.ts', 'tests/**/*.test.ts'],
     coverage: {
-      provider: "v8",
-      reporter: ["text", "json-summary", "html"],
-      // This gate covers only deterministic modules verified at 100% by the
-      // unit suite. Agent/eval paths still have meaningful uncovered cases;
-      // provider/model orchestration also requires external runtime seams.
+      provider: 'v8',
+      reporter: ['text', 'json-summary', 'html'],
       include: [
-        "src/generators/index.ts",
-        "src/generators/rng.ts",
-        "src/lib/codes/index.ts",
-        "src/lib/utils.ts",
+        'src/agent/**/*.ts',
+        'src/eval/**/*.ts',
+        'src/generators/**/*.ts',
+        'src/lib/**/*.ts',
       ],
-      exclude: ["**/*.test.ts", "**/*.d.ts"],
+      exclude: ['**/*.test.ts', '**/*.d.ts'],
       thresholds: {
         statements: 100,
         branches: 100,
